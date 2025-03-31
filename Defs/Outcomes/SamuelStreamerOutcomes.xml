@@ -1,0 +1,21 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_SamuelStreamer</defName>
+    <chanceToBeAoe>0.69</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_Pregnancy>1</BS_RR_Pregnancy>
+      <BS_RR_PregnancyInsane>0.5</BS_RR_PregnancyInsane>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_Pregnancy</defName>
+    <makePregnantSane>true</makePregnantSane>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_PregnancyInsane</defName>
+    <makePregnantInsane>true</makePregnantInsane>
+  </BigAndSmall.EventOutcome>
+
+</Defs>

@@ -1,0 +1,72 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_GeneOutcomes</defName>
+    <chanceToBeAoe>0.25</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_GiveInstabilityGene>1.5</BS_RR_GiveInstabilityGene>
+      <BS_RR_RandomEndogenes>1.5</BS_RR_RandomEndogenes>
+      <BS_RR_RandomXenogenes>1.5</BS_RR_RandomXenogenes>
+      <BS_RR_GiveSizeGene>1.5</BS_RR_GiveSizeGene>
+      <BS_RR_RandomEndogenesAny>1.2</BS_RR_RandomEndogenesAny>
+      <BS_RR_RandomXenogenesAny>1.2</BS_RR_RandomXenogenesAny>
+      <BS_RR_RandomXenotype>0.8</BS_RR_RandomXenotype>
+      <BS_RR_RandomXenotypeArchite>0.8</BS_RR_RandomXenotypeArchite>
+      
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_RandomEndogenes</defName>
+    <randomEndogenes>1~7</randomEndogenes>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_RandomXenogenes</defName>
+    <randomXenogenes>1~7</randomXenogenes>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_RandomEndogenesAny</defName>
+    <randomEndogenesAny>1~6</randomEndogenesAny>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_RandomXenogenesAny</defName>
+    <randomXenogenesAny>1~6</randomXenogenesAny>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_RandomEndogenesAchite</defName>
+    <randomEndogenesAchite>1~4</randomEndogenesAchite>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_RandomXenogenesAchite</defName>
+    <randomXenogenesAchite>1~5</randomXenogenesAchite>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_RandomXenotype</defName>
+    <randomXenotype>true</randomXenotype>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_RandomXenotypeArchite</defName>
+    <randomXenotypeArchite>true</randomXenotypeArchite>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_GiveInstabilityGene</defName>
+    <giveGeneFromList>
+      <li>BS_Instability_Catastrophic</li>
+      <li>BS_CellPandemonium</li>
+      <li>Instability_Major</li>
+      <li>Instability_Mild</li>
+    </giveGeneFromList>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_GiveSizeGene</defName>
+    <giveSizeGene>true</giveSizeGene>
+  </BigAndSmall.EventOutcome>
+</Defs>

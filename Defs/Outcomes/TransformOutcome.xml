@@ -1,0 +1,52 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_TransformOutcomes</defName>
+    <chanceToBeAoe>0</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_MakeMech>1.5</BS_RR_MakeMech>
+      <BS_RR_MakeAnimal>1.5</BS_RR_MakeAnimal>
+      <BS_RR_MakeManhuntingAnimal>1.2</BS_RR_MakeManhuntingAnimal>
+      <BS_RR_MakeBerserkAnimal>1.2</BS_RR_MakeBerserkAnimal>
+      <BS_RR_MakeColonyAnimal>0.4</BS_RR_MakeColonyAnimal>
+      <BS_RR_MakeColonyMech>0.3</BS_RR_MakeColonyMech>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MakeMech</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <makeMech>true</makeMech>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MakeAnimal</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <makeAnimal>true</makeAnimal>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MakeColonyAnimal</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <makeColonyAnimal>true</makeColonyAnimal>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MakeManhuntingAnimal</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <makeBerserkAnimal>true</makeBerserkAnimal>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MakeBerserkAnimal</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <makeManhuntingAnimal>true</makeManhuntingAnimal>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MakeColonyMech</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <makeColonyMech>true</makeColonyMech>
+  </BigAndSmall.EventOutcome>
+  
+
+</Defs>

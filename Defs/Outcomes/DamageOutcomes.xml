@@ -1,0 +1,42 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_DamageOutcomes</defName>
+    <chanceToBeAoe>0.25</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_SomeDmg>1</BS_RR_SomeDmg>
+      <BS_RR_MuchDmg>1</BS_RR_MuchDmg>
+      <BS_RR_VeryMuchDmg>0.5</BS_RR_VeryMuchDmg>
+      <BS_RR_Explode>0.5</BS_RR_Explode>
+      <BS_RR_ExplodeVery>0.25</BS_RR_ExplodeVery>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_SomeDmg</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <takeRDamage>1~10</takeRDamage>
+  </BigAndSmall.EventOutcome>
+
+   <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MuchDmg</defName>
+    <takeRDamage>5~40</takeRDamage>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_VeryMuchDmg</defName>
+    <takeRDamage>20~80</takeRDamage>
+  </BigAndSmall.EventOutcome>
+
+   <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_Explode</defName>
+    <takeRDamage>30~40</takeRDamage>
+    <explode>true</explode>
+  </BigAndSmall.EventOutcome>
+
+   <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_ExplodeVery</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <takeRDamage>40~60</takeRDamage>
+    <explode>true</explode>
+  </BigAndSmall.EventOutcome>
+</Defs>
