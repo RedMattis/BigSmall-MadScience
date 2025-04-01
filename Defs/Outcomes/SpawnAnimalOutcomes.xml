@@ -1,0 +1,22 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_SpawnAnimals</defName>
+    <chanceToBeAoe>0</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_SpawnAnimals>0.8</BS_RR_SpawnAnimals>
+      <BS_RR_SpawnManhuntingAnimals>1.2</BS_RR_SpawnManhuntingAnimals>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_SpawnAnimals</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <spawnAnimalThreat>50~300</spawnAnimalThreat>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_SpawnManhuntingAnimals</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <spawnAnimalThreatManhunter>50~300</spawnAnimalThreatManhunter>
+  </BigAndSmall.EventOutcome>
+</Defs>

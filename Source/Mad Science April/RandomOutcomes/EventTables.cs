@@ -12,7 +12,7 @@ namespace BigAndSmall
         public List<EventTrigger> eventTriggers;
 
         public float chanceToBeAoe = 0f;
-        public IntRange triggerRange = new IntRange(1, 4);
+        public IntRange triggerRange = new IntRange(1, 2);
         public bool excludeTarget;
         public bool prioritiseHighestValue;
         public bool pPrioritiseLowestValue;

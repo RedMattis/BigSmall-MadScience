@@ -2,7 +2,7 @@
   <BigAndSmall.RandomEventTable>
     <defName>BS_RR_RaceOutcomes</defName>
     <chanceToBeAoe>0.35</chanceToBeAoe>
-    <triggerRange>3~9</triggerRange>
+    <triggerRange>1~3</triggerRange>
     <eventTriggers>
       <BS_RR_MakeSapientAnimal>4</BS_RR_MakeSapientAnimal>
       <BS_RR_MakeUndead>3</BS_RR_MakeUndead>

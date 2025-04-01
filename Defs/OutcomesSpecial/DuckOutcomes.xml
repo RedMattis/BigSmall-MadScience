@@ -1,0 +1,37 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_SpawnDucks</defName>
+    <chanceToBeAoe>0</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_SpawnDucks>1</BS_RR_SpawnDucks>
+      <BS_RR_SpawnDucksManhunter>0.5</BS_RR_SpawnDucksManhunter>
+      <BS_RR_SpawnBunniesManhunter>0.25</BS_RR_SpawnBunniesManhunter>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_SpawnDucks</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <spawnKinds>
+      <li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li>
+    </spawnKinds>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_SpawnDucksManhunter</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <spawnKindsManhunter>
+      <li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li><li>Duck</li>
+    </spawnKindsManhunter>
+  </BigAndSmall.EventOutcome>
+
+    <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_SpawnBunniesManhunter</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <spawnKindsManhunter>
+      <li>Snowhare</li><li>Snowhare</li><li>Snowhare</li><li>Snowhare</li><li>Snowhare</li><li>Snowhare</li><li>Snowhare</li><li>Snowhare</li><li>Snowhare</li><li>Snowhare</li>
+    </spawnKindsManhunter>
+  </BigAndSmall.EventOutcome>
+
+</Defs>

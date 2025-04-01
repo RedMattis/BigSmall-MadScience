@@ -48,9 +48,20 @@
           <BS_RR_HediffOutcome>1</BS_RR_HediffOutcome>
           <BS_RR_GeneOutcomes>1</BS_RR_GeneOutcomes>
           <BS_RR_RaceOutcomes>0.5</BS_RR_RaceOutcomes>
+          <BS_RR_MentalBreak>1</BS_RR_MentalBreak>
+
+          <!-- Spawn stuff -->
+          <BS_RR_SpawnAnimals>0.04</BS_RR_SpawnAnimals>
+          <BS_RR_SpawnDucks>0.08</BS_RR_SpawnDucks> <!--Thekiborg-->
+
+          <!-- Harmless -->
+          <BS_RR_CatgirlEtc>0.2</BS_RR_CatgirlEtc> <!--FrozenSnowFox-->
+
+          <!-- Big deal -->
+          <BS_RR_DeadlifeDust>0.1</BS_RR_DeadlifeDust>
 
           <!-- Thanks Keyz. o_O;; -->
-          <BS_RR_SamuelStreamer>0.2</BS_RR_SamuelStreamer>
+          <BS_RR_SamuelStreamer>0.2</BS_RR_SamuelStreamer> <!--Keyz-->
 
            <!-- Instant-kill. -->
           <BS_RR_TransformOutcomes>0.5</BS_RR_TransformOutcomes>

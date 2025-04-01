@@ -1,0 +1,64 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_CatgirlEtc</defName>
+    <chanceToBeAoe>0.69</chanceToBeAoe>
+    <triggerRange>2~5</triggerRange>
+    <eventTriggers>
+      <BS_RR_Catgirls>2</BS_RR_Catgirls>
+      <BS_RR_Catpeople>1</BS_RR_Catpeople>
+      <BS_RR_Foxgirls>0.5</BS_RR_Foxgirls>
+      <BS_RR_Foxpeople>0.25</BS_RR_Foxpeople>
+      <BS_RR_Wolfgirls>0.25</BS_RR_Wolfgirls>
+      <BS_RR_Wolfpeople>0.25</BS_RR_Wolfpeople>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome Name="BS_MakeCatPerson" ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_Catpeople</defName>
+    <giveAllGenesFromList>
+      <li>BS_AnimalEars</li>
+      <li>BS_HumanoidWithTail</li>
+    </giveAllGenesFromList>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_MakeCatPerson">
+    <defName>BS_RR_Catgirls</defName>
+    <makeGender>Female</makeGender>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome Name="BS_MakeFoxPerson" ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_Foxpeople</defName>
+    <giveAllGenesFromList>
+      <li>BS_FoxEars</li>
+      <li>Tail_Furry</li>
+      <li>Hair_LightOrange</li>
+      <li>BS_SkinBurningOrange</li>
+      <li>Furskin</li>
+    </giveAllGenesFromList>
+    <!-- <giveXenogeneFromList>
+      <li>BS_SkinBloodRed</li>
+    </giveXenogeneFromList> -->
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_MakeFoxPerson">
+    <defName>BS_RR_Foxgirls</defName>
+    <makeGender>Female</makeGender>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome Name="BS_MakeWolfPerson" ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_Wolfpeople</defName>
+    <giveAllGenesFromList>
+      <li>BS_AnimalEars</li>
+      <li>BS_WerewolfSnoot</li>
+      <li>Tail_Furry</li>
+      <!-- <li>BS_BloodHair</li> -->
+      <!-- <li>Furskin</li> -->
+    </giveAllGenesFromList>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_MakeWolfPerson">
+    <defName>BS_RR_Wolfgirls</defName>
+    <makeGender>Female</makeGender>
+  </BigAndSmall.EventOutcome>
+
+</Defs>

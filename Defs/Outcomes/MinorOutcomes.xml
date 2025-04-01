@@ -4,19 +4,12 @@
     <chanceToBeAoe>0.5</chanceToBeAoe>
     <eventTriggers>
       <BS_RR_SwapStuffs>1</BS_RR_SwapStuffs>
-      <BS_RR_RandomMentalBreak>0.25</BS_RR_RandomMentalBreak>
     </eventTriggers>
   </BigAndSmall.RandomEventTable>
 
   <BigAndSmall.EventOutcome>
     <defName>BS_RR_SwapStuffs</defName>
     <swapApparelStuffables>true</swapApparelStuffables>
-  </BigAndSmall.EventOutcome>
-
-  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpTiny">
-    <defName>BS_RR_RandomMentalBreak</defName>
-    <failOnNonhumanlike>false</failOnNonhumanlike>
-    <giveRandomMentalBreak>true</giveRandomMentalBreak>
   </BigAndSmall.EventOutcome>
   
 </Defs>

@@ -14,6 +14,7 @@ namespace BigAndSmall
     {
         // System
         public bool failOnNonhumanlike = true;
+        public bool failOnNoAnomalyDLC = false;
 
         // Simple
         public FloatRange? takeRDamage;
@@ -35,6 +36,7 @@ namespace BigAndSmall
         public bool giveSizeGene;
         // public bool turnIntoRobot; // Use giveXenotypeFromList instead.
         public bool swapGender;
+        public Gender? makeGender;
         public bool makeUndead;
         public bool makeAnimal;
         public bool makeColonyAnimal;
@@ -60,15 +62,27 @@ namespace BigAndSmall
         public bool makePregnantSane;
         public bool makePregnantInsane;
 
+        public IntRange? deadLifeDustSame;
+        public IntRange? deadLifeDustPlayer;
+        public IntRange? deadLifeDustHorax;
+
+        public IntRange? spawnAnimalThreat;
+        public IntRange? spawnAnimalThreatManhunter;
+
         // Controlled Random
         public List<HediffDef> giveARandomHediff;
         public List<GeneDef> giveEndogeneFromList;
         public List<GeneDef> giveXenogeneFromList;
         public List<GeneDef> giveGeneFromList;
+        public List<GeneDef> giveAllGenesFromList;
         public List<XenotypeDef> giveXenotypeFromList;
         public List<TraitDef> giveTraitFromList;
         public List<MentalBreakDef> giveMentalBreakFromList;
         public List<ThingDef> turnIntoThingFromList;  // Add Go Juice to this list.
+
+        public List<PawnKindDef> spawnKinds;
+        public List<PawnKindDef> spawnKindsManhunter;
+        public List<PawnKindDef> spawnKindsAnyMutualHostile;
 
         // Meta Results (triggers other events)
         public List<RandomEventTable> followUpEvents;
@@ -88,6 +102,10 @@ namespace BigAndSmall
         }
         protected virtual bool DoOutcomeInner(Pawn pawn)
         {
+            if (failOnNoAnomalyDLC && !ModLister.HasActiveModWithName("Anomaly"))
+            {
+                return false;
+            }
             if (pawn?.Position == null || pawn.Map == null) return false;
             var pawnPos = pawn.Position;
             var pawnMap = pawn.Map;
@@ -102,97 +120,84 @@ namespace BigAndSmall
 
             if (doEmpExplosionLarge)
             {
-                GenExplosion.DoExplosion(pawn.Position, pawn.Map, 4, DamageDefOf.EMP, pawn, damAmount: 50);
+                GenExplosion.DoExplosion(pawnPos, pawnMap, 4, DamageDefOf.EMP, pawn, damAmount: 50);
             }
             else if (doEmpExplosionSmall)
             {
-                GenExplosion.DoExplosion(pawn.Position, pawn.Map, 2, DamageDefOf.EMP, pawn, damAmount: 10);
+                GenExplosion.DoExplosion(pawnPos, pawnMap, 2, DamageDefOf.EMP, pawn, damAmount: 10);
             }
             else if (doEmpExplosionTiny)
             {
-                GenExplosion.DoExplosion(pawn.Position, pawn.Map, 1, DamageDefOf.EMP, pawn, damAmount: 5);
+                GenExplosion.DoExplosion(pawnPos, pawnMap, 1, DamageDefOf.EMP, pawn, damAmount: 5);
             }
 
-            if (humanLikeWithGenes)
+            
+            if (spawnAnimalThreat != null)
             {
-                ProcessRandomGenes(pawn, randomEndogenes, false, x => x.biostatArc == 0);
-                ProcessRandomGenes(pawn, randomXenogenes, true, x => x.biostatArc == 0);
-                ProcessRandomGenes(pawn, randomEndogenesAny, false, x => true);
-                ProcessRandomGenes(pawn, randomXenogenesAny, true, x => true);
-                ProcessRandomGenes(pawn, randomEndogenesAchite, false, x => x.biostatArc > 0);
-                ProcessRandomGenes(pawn, randomXenogenesAchite, true, x => x.biostatArc > 0);
-
-                if (randomXenotype)
+                float threatAmount = spawnAnimalThreat.Value.RandomInRange;
+                var animalkinds = DefDatabase<PawnKindDef>.AllDefs.Where(x => x.race?.race.Animal == true && x.combatPower < (threatAmount / 2));
+                if (animalkinds.Any())
                 {
-                    SetRandomXenotype(pawn, x => !x.Archite);
-                }
-                if (randomXenotypeArchite)
-                {
-                    SetRandomXenotype(pawn, x => x.Archite);
-                }
-                if (randomizeTraits)
-                {
-                    RandomizeTraits(pawn);
-                }
-                if (randomizeSkills)
-                {
-                    RandomizeSkills(pawn);
-                }
-                if (appendRaceGene)
-                {
-                    AppendRaceGene(pawn);
-                }
-                if (replaceRace)
-                {
-                    ReplaceRaceGene(pawn);
-                }
-                if (giveSizeGene)
-                {
-                    GiveSizeGene(pawn);
-                }
-                if (swapGender)
-                {
-                    Genderbender.GenderBend(pawn);
-                }
-                if (fuseWithMultiplePawns != null || fuseWithNearestPawn)
-                {
-                    FuseWithPawns(pawn);
-                }
-                if (giveEndogeneFromList != null)
-                {
-                    GiveGeneFromList(pawn, giveEndogeneFromList, false);
-                }
-                if (giveXenogeneFromList != null)
-                {
-                    GiveGeneFromList(pawn, giveXenogeneFromList, true);
-                }
-                if (giveGeneFromList != null)
-                {
-                    GiveGeneFromList(pawn, giveGeneFromList, Rand.Bool);
-                }
-                if (giveXenotypeFromList != null)
-                {
-                    GiveXenotypeFromList(pawn, giveXenotypeFromList);
-                }
-                if (giveTraitFromList != null)
-                {
-                    RandomizeTraits(pawn);
-                    foreach (var trait in giveTraitFromList)
+                    var animalkind = animalkinds.RandomElement();
+                    float combatPower = Mathf.Max(animalkind.combatPower, 35); // Avoid excessive spawning of weak animals.
+                    int countToSpawn = (int)(threatAmount / combatPower);
+                    countToSpawn = Mathf.Min(6, Mathf.Max(1, countToSpawn));
+                    for (int i = 0; i < countToSpawn; i++)
                     {
-                        pawn.story.traits.GainTrait(new Trait(trait));
+                        var animal = PawnGenerator.GeneratePawn(animalkind);
+                        GenSpawn.Spawn(animal, pawnPos, pawnMap);
                     }
                 }
-                if (makeSapientAnimal)
+            }
+            if (spawnKinds != null || spawnKindsAnyMutualHostile != null || spawnKindsManhunter != null)
+            {
+                if (spawnKinds != null)
                 {
-                    MakeSapientAnimal(pawn);
+                    foreach (var kind in spawnKinds)
+                    {
+                        var newPawn = PawnGenerator.GeneratePawn(kind);
+                        GenSpawn.Spawn(newPawn, pawnPos, pawnMap);
+                    }
+                }
+                if (spawnKindsManhunter != null)
+                {
+                    foreach (var kind in spawnKindsManhunter)
+                    {
+                        var newPawn = PawnGenerator.GeneratePawn(kind);
+                        newPawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, forced:true);
+                        GenSpawn.Spawn(newPawn, pawnPos, pawnMap);
+                    }
+                }
+                if (spawnKindsAnyMutualHostile != null)
+                {
+                    var mutuallyHostileFactions = Find.FactionManager.AllFactions.Where(x => x.HostileTo(Faction.OfPlayer) && x.HostileTo(pawn.Faction));
+                    Faction mutuallyHostileFaction = null;
+                    if (mutuallyHostileFactions.Any())
+                    {
+                        mutuallyHostileFaction = mutuallyHostileFactions.RandomElement();
+                    }
+                    foreach(var kind in spawnKindsAnyMutualHostile)
+                    {
+                        var newPawn = PawnGenerator.GeneratePawn(kind);
+                        if (mutuallyHostileFaction != null)
+                            newPawn.SetFaction(mutuallyHostileFaction);
+                        GenSpawn.Spawn(newPawn, pawnPos, pawnMap);
+                    }
                 }
             }
-            else
+
+            if (deadLifeDustSame != null || deadLifeDustPlayer != null || deadLifeDustHorax != null)
             {
-                if (makeHumanlike)
+                if (deadLifeDustSame != null)
+                    GasUtility.AddDeadifeGas(pawnPos, pawnMap, faction: pawn.Faction, deadLifeDustSame.Value.RandomInRange * 255);
+                if (deadLifeDustPlayer != null)
+                    GasUtility.AddDeadifeGas(pawnPos, pawnMap, faction: Faction.OfPlayer, deadLifeDustSame.Value.RandomInRange * 255);
+                if (deadLifeDustHorax != null)
                 {
-                    TransformPawn(pawn, pawnPos, pawnMap);
-                    return false;
+                    if (Find.FactionManager.FirstFactionOfDef(FactionDefOf.HoraxCult) is Faction cult)
+                        GasUtility.AddDeadifeGas(pawnPos, pawnMap, faction: cult, deadLifeDustSame.Value.RandomInRange * 255);
+                    else
+                        GasUtility.AddDeadifeGas(pawnPos, pawnMap, faction: Faction.OfPlayer, deadLifeDustSame.Value.RandomInRange * 255);
                 }
             }
 
@@ -261,6 +266,102 @@ namespace BigAndSmall
                         var preg = pawn.health.AddHediff(pregnantHediff);
                         preg.Severity = Rand.Range(0.25f, 1.2f);
                     }
+                }
+            }
+
+            // In case it changed.
+            if (!ValidTarget(pawn)) return true;
+            humanLikeWithGenes = pawn?.genes != null && pawn?.RaceProps.Humanlike == true;
+            if (humanLikeWithGenes)
+            {
+                ProcessRandomGenes(pawn, randomEndogenes, false, x => x.biostatArc == 0);
+                ProcessRandomGenes(pawn, randomXenogenes, true, x => x.biostatArc == 0);
+                ProcessRandomGenes(pawn, randomEndogenesAny, false, x => true);
+                ProcessRandomGenes(pawn, randomXenogenesAny, true, x => true);
+                ProcessRandomGenes(pawn, randomEndogenesAchite, false, x => x.biostatArc > 0);
+                ProcessRandomGenes(pawn, randomXenogenesAchite, true, x => x.biostatArc > 0);
+
+                if (randomXenotype)
+                {
+                    SetRandomXenotype(pawn, x => !x.Archite);
+                }
+                if (randomXenotypeArchite)
+                {
+                    SetRandomXenotype(pawn, x => x.Archite);
+                }
+                if (randomizeTraits)
+                {
+                    RandomizeTraits(pawn);
+                }
+                if (randomizeSkills)
+                {
+                    RandomizeSkills(pawn);
+                }
+                
+                if (giveSizeGene)
+                {
+                    GiveSizeGene(pawn);
+                }
+                if (swapGender)
+                {
+                    Genderbender.GenderBend(pawn);
+                }
+                if (makeGender != null)
+                {
+                    pawn.gender = makeGender.Value;
+                    GenderMethods.UpdateBodyHeadAndBeardPostGenderChange(pawn, force: true);
+                }
+                if (fuseWithMultiplePawns != null || fuseWithNearestPawn)
+                {
+                    FuseWithPawns(pawn);
+                }
+                if (giveEndogeneFromList != null)
+                {
+                    GiveGeneFromList(pawn, giveEndogeneFromList, false, false);
+                }
+                if (giveXenogeneFromList != null)
+                {
+                    GiveGeneFromList(pawn, giveXenogeneFromList, true, false);
+                }
+                if (giveGeneFromList != null)
+                {
+                    GiveGeneFromList(pawn, giveGeneFromList, Rand.Bool, false);
+                }
+                if (giveAllGenesFromList != null)
+                {
+                    GiveGeneFromList(pawn, giveAllGenesFromList, true, true);
+                }
+                if (giveXenotypeFromList != null)
+                {
+                    GiveXenotypeFromList(pawn, giveXenotypeFromList);
+                }
+                if (giveTraitFromList != null)
+                {
+                    RandomizeTraits(pawn);
+                    foreach (var trait in giveTraitFromList)
+                    {
+                        pawn.story.traits.GainTrait(new Trait(trait));
+                    }
+                }
+                if (appendRaceGene)
+                {
+                    AppendRaceGene(pawn);
+                }
+                if (replaceRace)
+                {
+                    ReplaceRaceGene(pawn);
+                }
+                if (makeSapientAnimal)
+                {
+                    MakeSapientAnimal(pawn);
+                }
+            }
+            else
+            {
+                if (makeHumanlike)
+                {
+                    TransformPawn(pawn, pawnPos, pawnMap);
+                    return false;
                 }
             }
 
@@ -393,7 +494,7 @@ namespace BigAndSmall
                 }
                 if (makeBerserkAnimal)
                 {
-                    newPawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter);
+                    newPawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, forced: true);
                 }
             }
             if (makeMech || makeColonyMech)
@@ -447,7 +548,18 @@ namespace BigAndSmall
             pawn.Destroy(DestroyMode.KillFinalize);
             var randomThing = DefDatabase<ThingDef>.AllDefsListForReading
                 .Where(x => x.category == ThingCategory.Item && x.BaseMarketValue < 10000 && x.BaseMarketValue > 150).RandomElement();
-            GenSpawn.Spawn(randomThing, pawnPos, pawnMap);
+            var thing = GenSpawn.Spawn(randomThing, pawnPos, pawnMap);
+            int maxMarketValue = Rand.Range(50, 1200);
+            float mValue = thing.MarketValue;
+            if (mValue < 150)
+            {
+                int stackTarget = maxMarketValue / Mathf.RoundToInt(mValue);
+                thing.stackCount = stackTarget;
+            }
+            else
+            {
+                thing.stackCount = 1;
+            }
         }
 
         private void TurnIntoRandomResource(Pawn pawn, IntVec3 pawnPos, Map pawnMap)
@@ -456,7 +568,7 @@ namespace BigAndSmall
             pawn.Destroy(DestroyMode.KillFinalize);
             var randomThing = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => x.stackLimit > 50 && x.BaseMarketValue < 100).RandomElement();
             var newThing = GenSpawn.Spawn(randomThing, pawnPos, pawnMap);
-            newThing.stackCount = Mathf.RoundToInt(butcherAmount);
+            newThing.stackCount = Mathf.Max(1, Mathf.RoundToInt(butcherAmount));
         }
 
         private void Explode(Pawn pawn)
@@ -467,7 +579,7 @@ namespace BigAndSmall
 
         private void GiveRandomHediff(Pawn pawn)
         {
-            var rngHediff = DefDatabase<HediffDef>.AllDefsListForReading.RandomElement();
+            var rngHediff = DefDatabase<HediffDef>.AllDefsListForReading.Where(x=>x.countsAsAddedPartOrImplant || x.makesSickThought || x.tendable || x.isBad || x.defaultInstallPart != null).RandomElement();
             AddHediff(pawn, rngHediff);
         }
 
@@ -524,7 +636,8 @@ namespace BigAndSmall
         private void GiveRandomMentalBreak(Pawn pawn)
         {
             var mentalBreak = DefDatabase<MentalBreakDef>.AllDefsListForReading.RandomElement();
-            pawn.mindState.mentalBreaker.TryDoMentalBreak("", mentalBreak);
+            //pawn.mindState.mentalBreaker.TryDoMentalBreak("", mentalBreak);
+            mentalBreak.Worker.TryStart(pawn, null, false);
         }
 
         private void GiveHediffFromList(Pawn pawn, List<HediffDef> hediffList)
@@ -533,11 +646,24 @@ namespace BigAndSmall
             AddHediff(pawn, rngHediff);
         }
 
-        private void GiveGeneFromList(Pawn pawn, List<GeneDef> geneList, bool isXeno)
+        private void GiveGeneFromList(Pawn pawn, List<GeneDef> geneList, bool isXeno, bool all)
         {
-            var rngGene = geneList.RandomElement();
-            pawn.genes.AddGene(rngGene, isXeno);
             Discombobulator.IntegrateGenes(pawn, removeOverriden: true);
+            if (all)
+            {
+                foreach (var gene in geneList)
+                {
+                    pawn.genes.AddGene(gene, isXeno);
+                }
+                Discombobulator.IntegrateGenes(pawn, removeOverriden: true);
+                return;
+            }
+            else
+            {
+                var rngGene = geneList.RandomElement();
+                pawn.genes.AddGene(rngGene, isXeno);
+            }
+            if (!isXeno) { Discombobulator.IntegrateGenes(pawn, removeOverriden: true); }
         }
 
         private void GiveXenotypeFromList(Pawn pawn, List<XenotypeDef> xenotypeList)
