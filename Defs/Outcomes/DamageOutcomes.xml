@@ -1,7 +1,7 @@
 <Defs>
   <BigAndSmall.RandomEventTable>
     <defName>BS_RR_DamageOutcomes</defName>
-    <chanceToBeAoe>0.25</chanceToBeAoe>
+    <chanceToBeAoe>0</chanceToBeAoe>
     <eventTriggers>
       <BS_RR_SomeDmg>1</BS_RR_SomeDmg>
       <BS_RR_MuchDmg>1</BS_RR_MuchDmg>

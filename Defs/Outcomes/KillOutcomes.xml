@@ -5,6 +5,7 @@
     <eventTriggers>
       <BS_RR_TurnIntoRandomResource>2</BS_RR_TurnIntoRandomResource>
       <BS_RR_TurnIntoRandomThing>1</BS_RR_TurnIntoRandomThing>
+      <BS_RR_TurnIntoRandomMinifiedThing>1</BS_RR_TurnIntoRandomMinifiedThing>
       <BS_RR_ExplodeAndDie>0.5</BS_RR_ExplodeAndDie>
     </eventTriggers>
   </BigAndSmall.RandomEventTable>
@@ -13,6 +14,12 @@
     <defName>BS_RR_TurnIntoRandomThing</defName>
     <failOnNonhumanlike>false</failOnNonhumanlike>
     <turnIntoRandomThing>true</turnIntoRandomThing>
+  </BigAndSmall.EventOutcome>
+
+    <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_TurnIntoRandomMinifiedThing</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <turnIntoRanomedMinifiedThing>true</turnIntoRanomedMinifiedThing>
   </BigAndSmall.EventOutcome>
 
   <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">

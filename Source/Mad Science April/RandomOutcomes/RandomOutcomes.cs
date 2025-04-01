@@ -37,6 +37,7 @@ namespace BigAndSmall
         // public bool turnIntoRobot; // Use giveXenotypeFromList instead.
         public bool swapGender;
         public Gender? makeGender;
+        public FloatRange? randomizeAge;
         public bool makeUndead;
         public bool makeAnimal;
         public bool makeColonyAnimal;
@@ -47,12 +48,12 @@ namespace BigAndSmall
         public bool makeSapientAnimal;
         public bool makeHumanlike;
         public bool turnIntoRandomThing;
+        public bool turnIntoRanomedMinifiedThing;
         public bool turnIntoRandomResource;
         public bool kill;
         public bool explode;
         public bool giveRandomHediff;
-        public bool fuseWithNearestPawn;
-        public IntRange? fuseWithMultiplePawns;
+        public IntRange? fuseWithPawns;
         public bool swapApparelStuffables;
         public bool giveRandomMentalBreak;
 
@@ -69,6 +70,8 @@ namespace BigAndSmall
         public IntRange? spawnAnimalThreat;
         public IntRange? spawnAnimalThreatManhunter;
 
+        public FloatRange? organsBeGone;
+
         // Controlled Random
         public List<HediffDef> giveARandomHediff;
         public List<GeneDef> giveEndogeneFromList;
@@ -79,10 +82,12 @@ namespace BigAndSmall
         public List<TraitDef> giveTraitFromList;
         public List<MentalBreakDef> giveMentalBreakFromList;
         public List<ThingDef> turnIntoThingFromList;  // Add Go Juice to this list.
+        public List<ThingDef> turnIntoMinifiedThingFromList;
 
         public List<PawnKindDef> spawnKinds;
         public List<PawnKindDef> spawnKindsManhunter;
         public List<PawnKindDef> spawnKindsAnyMutualHostile;
+        
 
         // Meta Results (triggers other events)
         public List<RandomEventTable> followUpEvents;
@@ -112,6 +117,7 @@ namespace BigAndSmall
 
             var humanLikeWithGenes = pawn?.genes != null && pawn?.RaceProps.Humanlike == true;
             if (failOnNonhumanlike && !humanLikeWithGenes) return false;
+            if (!ValidTarget(pawn)) return true;
 
             if (true)
             {
@@ -131,7 +137,8 @@ namespace BigAndSmall
                 GenExplosion.DoExplosion(pawnPos, pawnMap, 1, DamageDefOf.EMP, pawn, damAmount: 5);
             }
 
-            
+            if (!ValidTarget(pawn)) return true;
+
             if (spawnAnimalThreat != null)
             {
                 float threatAmount = spawnAnimalThreat.Value.RandomInRange;
@@ -201,29 +208,9 @@ namespace BigAndSmall
                 }
             }
 
-            if (turnIntoRandomThing)
-            {
-                TurnIntoRandomThing(pawn, pawnPos, pawnMap);
-            }
-            if (turnIntoRandomResource)
-            {
-                TurnIntoRandomResource(pawn, pawnPos, pawnMap);
-            }
-            if (makeAnimal || makeColonyAnimal || makeBerserkAnimal || makeMech || makeColonyMech)
-            {
-                TransformPawn(pawn, pawnPos, pawnMap);
-            }
             if (makeUndead)
             {
                 MakeUndead(pawn);
-            }
-            if (kill)
-            {
-                pawn.Kill(null);
-            }
-            if (explode)
-            {
-                Explode(pawn);
             }
             if (giveRandomMentalBreak)
             {
@@ -248,8 +235,6 @@ namespace BigAndSmall
                     pawn.mindState.mentalBreaker.TryDoMentalBreak("", mentalBreak);
                 }
             }
-
-            // Credit to Keyz for this horrible idea.
             if (makePregnantSane || makePregnantInsane)
             {
                 if (makePregnantInsane || pawn.gender == Gender.Female)
@@ -268,6 +253,43 @@ namespace BigAndSmall
                     }
                 }
             }
+
+            if (explode)
+            {
+                Explode(pawn);
+            }
+
+            // Terminating outcomes
+            if (turnIntoRandomThing || turnIntoThingFromList != null)
+            {
+                TurnIntoRandomThing(pawn, pawnPos, pawnMap, turnIntoThingFromList);
+                return true;
+            }
+            if (turnIntoRanomedMinifiedThing || turnIntoThingFromList != null)
+            {
+                TurnIntoRandomMinifiedThing(pawn, pawnPos, pawnMap, turnIntoThingFromList);
+                return true;
+            }
+            if (turnIntoRandomResource)
+            {
+                TurnIntoRandomResource(pawn, pawnPos, pawnMap);
+                return true;
+            }
+            if (makeAnimal || makeColonyAnimal || makeBerserkAnimal || makeMech || makeColonyMech)
+            {
+                TransformPawn(pawn, pawnPos, pawnMap);
+                return true;
+            }
+            if (kill)
+            {
+                pawn.Kill(null);
+                return true;
+            }
+
+
+
+            // Credit to Keyz for this horrible idea.
+
 
             // In case it changed.
             if (!ValidTarget(pawn)) return true;
@@ -311,7 +333,13 @@ namespace BigAndSmall
                     pawn.gender = makeGender.Value;
                     GenderMethods.UpdateBodyHeadAndBeardPostGenderChange(pawn, force: true);
                 }
-                if (fuseWithMultiplePawns != null || fuseWithNearestPawn)
+                if (randomizeAge != null)
+                {
+                    float maxAge = pawn?.RaceProps.lifeExpectancy ?? 500;
+                    if (maxAge == 500 && Rand.Chance(0.05f)) maxAge = 5000;//
+                    pawn.ageTracker.AgeBiologicalTicks = (long)(maxAge * randomizeAge.Value.RandomInRange * 3600000);
+                }
+                if (fuseWithPawns != null)
                 {
                     FuseWithPawns(pawn);
                 }
@@ -401,7 +429,7 @@ namespace BigAndSmall
         {
             if (geneRange != null)
             {
-                var allGenes = DefDatabase<GeneDef>.AllDefsListForReading.Where(predicate).ToList();
+                var allGenes = DefDatabase<GeneDef>.AllDefsListForReading.Where(predicate).Where(x=>!x.defName.ToLower().Contains("morph")).ToList();
                 for (int i = 0; i < geneRange.Value.RandomInRange; i++)
                 {
                     pawn.genes.AddGene(allGenes.RandomElement(), isXeno);
@@ -497,7 +525,7 @@ namespace BigAndSmall
                     newPawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, forced: true);
                 }
             }
-            if (makeMech || makeColonyMech)
+            else if (makeMech || makeColonyMech)
             {
                 var randomMech = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(x => x.race?.race.IsMechanoid == true).RandomElement();
                 if (makeColonyMech)
@@ -514,26 +542,26 @@ namespace BigAndSmall
                     }
                 }
             }
-            if (makeHumanlike)
+            else if (makeHumanlike)
             {
                 newPawn = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist);
                 newPawn.SetFaction(faction);
-                pawn = newPawn;
                 if (Rand.Chance(0.25f))
                 {
-                    SetRandomXenotype(pawn, x => true);
+                    SetRandomXenotype(newPawn, x => true);
                 }
                 if (Rand.Chance(0.95f))
                 {
-                    SetRandomXenotype(pawn, x => !x.Archite);
+                    SetRandomXenotype(newPawn, x => !x.Archite);
                 }
             }
             if (newPawn != null)
             {
                 newPawn.Name = pawnName;
                 newPawn.ageTracker.AgeBiologicalTicks = age;
+                GenSpawn.Spawn(newPawn, pawnPos, pawnMap);
             }
-            GenSpawn.Spawn(newPawn, pawnPos, pawnMap);
+            
         }
 
         private void MakeSapientAnimal(Pawn pawn)
@@ -543,11 +571,15 @@ namespace BigAndSmall
             RaceMorpher.SwapThingDef(pawn, anyHumanlikeAnimal.Key, true, targetPriority: 999999, force: true);
         }
 
-        private void TurnIntoRandomThing(Pawn pawn, IntVec3 pawnPos, Map pawnMap)
+        private void TurnIntoRandomThing(Pawn pawn, IntVec3 pawnPos, Map pawnMap, List<ThingDef> specificThings)
         {
             pawn.Destroy(DestroyMode.KillFinalize);
             var randomThing = DefDatabase<ThingDef>.AllDefsListForReading
                 .Where(x => x.category == ThingCategory.Item && x.BaseMarketValue < 10000 && x.BaseMarketValue > 150).RandomElement();
+            if (specificThings != null && specificThings.Any())
+            {
+                randomThing = specificThings.RandomElement();
+            }
             var thing = GenSpawn.Spawn(randomThing, pawnPos, pawnMap);
             int maxMarketValue = Rand.Range(50, 1200);
             float mValue = thing.MarketValue;
@@ -560,6 +592,29 @@ namespace BigAndSmall
             {
                 thing.stackCount = 1;
             }
+        }
+
+        private void TurnIntoRandomMinifiedThing(Pawn pawn, IntVec3 pawnPos, Map pawnMap, List<ThingDef> specificThings)
+        {
+            pawn.Destroy(DestroyMode.KillFinalize);
+            var minifiedThingList = DefDatabase<ThingDef>.AllDefsListForReading
+                .Where(x => x.category == ThingCategory.Item && x.BaseMarketValue < 10000 && x.BaseMarketValue > 150)
+                .Select(x => x.minifiedDef).Where(x => x != null);
+            if (specificThings != null && specificThings.Any())
+            {
+                minifiedThingList = specificThings.Select(x => x.minifiedDef).Where(x => x != null);
+            }
+            if (minifiedThingList.Any())
+            {
+                var randomMinifiableThing = minifiedThingList.RandomElement();
+                SpawnMinifiedThing(pawnPos, pawnMap, randomMinifiableThing);
+            }
+        }
+
+        private static void SpawnMinifiedThing(IntVec3 pawnPos, Map pawnMap, ThingDef randomMinifiableThing)
+        {
+            var minifiedThing = GenSpawn.Spawn(randomMinifiableThing.minifiedDef, pawnPos, pawnMap) as MinifiedThing;
+            minifiedThing.InnerThing = ThingMaker.MakeThing(randomMinifiableThing);
         }
 
         private void TurnIntoRandomResource(Pawn pawn, IntVec3 pawnPos, Map pawnMap)
@@ -579,21 +634,25 @@ namespace BigAndSmall
 
         private void GiveRandomHediff(Pawn pawn)
         {
-            var rngHediff = DefDatabase<HediffDef>.AllDefsListForReading.Where(x=>x.countsAsAddedPartOrImplant || x.makesSickThought || x.tendable || x.isBad || x.defaultInstallPart != null).RandomElement();
-            AddHediff(pawn, rngHediff);
+            var rngHediffs = DefDatabase<HediffDef>.AllDefsListForReading.Where(x => x.countsAsAddedPartOrImplant || x.makesSickThought || x.tendable || x.isBad || x.defaultInstallPart != null);
+            if (rngHediffs.Any())
+            {
+                var rngHediff = rngHediffs.RandomElement();
+                AddHediff(pawn, rngHediff);
+            }
         }
 
         private void FuseWithPawns(Pawn pawn)
         {
             if (pawn.RaceProps.Humanlike == false) return;
-            var countToFuse = fuseWithMultiplePawns?.RandomInRange ?? 1;
-            var nearbyPawns = pawn.Map.mapPawns.AllPawns.Where(x => x.genes != null && x.Position.DistanceTo(pawn.Position) < 10).ToList();
-            var maxDistance = Rand.Range(1, 10);
+            var countToFuse = fuseWithPawns?.RandomInRange ?? 1;
+            var nearbyPawns = pawn.Map.mapPawns.AllPawns.Where(x => x.genes != null && x.Position.DistanceTo(pawn.Position) < 3).ToList();
+            var maxDistance = Rand.Range(1, 3);
             if (nearbyPawns.Count > 0)
             {
                 var firstPawn = pawn;
                 var nearestPawns = nearbyPawns.OrderBy(x => x.Position.DistanceTo(pawn.Position)).Take(countToFuse).ToList();
-                nearestPawns = nearestPawns.Where(x => x.Position.DistanceTo(pawn.Position) < maxDistance).ToList();
+                nearestPawns = nearestPawns.Where(x => x.Position.DistanceTo(pawn.Position) < maxDistance && x?.RaceProps?.Humanlike == true).ToList();
                 if (!pawn.IsColonist)
                 {
                     var colonist = nearestPawns.FirstOrDefault(x => x.IsColonist);
@@ -636,8 +695,11 @@ namespace BigAndSmall
         private void GiveRandomMentalBreak(Pawn pawn)
         {
             var mentalBreak = DefDatabase<MentalBreakDef>.AllDefsListForReading.RandomElement();
-            //pawn.mindState.mentalBreaker.TryDoMentalBreak("", mentalBreak);
-            mentalBreak.Worker.TryStart(pawn, null, false);
+            if (!pawn.mindState.mentalBreaker.TryDoMentalBreak("", mentalBreak))
+            {
+                pawn.mindState.mentalBreaker.TryDoMentalBreak("", MentalBreakDefOf.BerserkShort);
+            }
+            //mentalBreak.Worker.TryStart(pawn, null, false);
         }
 
         private void GiveHediffFromList(Pawn pawn, List<HediffDef> hediffList)
@@ -679,21 +741,21 @@ namespace BigAndSmall
             var recipeDef = DefDatabase<RecipeDef>.AllDefsListForReading.FirstOrDefault(x => x.addsHediff == rngHediff);
             if (recipeDef?.appliedOnFixedBodyParts is List<BodyPartDef> validParts)
             {
-                var getFirstValidPart = pawn.health.hediffSet.GetNotMissingParts().Where(x => validParts.Contains(x.def)).RandomElement();
-                if (getFirstValidPart != null)
+                var parts = pawn.health.hediffSet.GetNotMissingParts().Where(x => validParts.Contains(x.def));
+                if (parts.Any())
                 {
-                    pawn.health.AddHediff(rngHediff, getFirstValidPart);
+                    pawn.health.AddHediff(rngHediff, parts.RandomElement());
                 }
             }
             else if (recipeDef?.appliedOnFixedBodyPartGroups is List<BodyPartGroupDef> validGroups)
             {
-                var getFirstValidPart = pawn.health.hediffSet.GetNotMissingParts().Where(x => validGroups.Intersect(x.groups).Any()).RandomElement();
-                if (getFirstValidPart != null)
+                var parts = pawn.health.hediffSet.GetNotMissingParts().Where(x => validGroups.Intersect(x.groups).Any());
+                if (parts.Any())
                 {
-                    pawn.health.AddHediff(rngHediff, getFirstValidPart);
+                    pawn.health.AddHediff(rngHediff, parts.RandomElement());
                 }
             }
-            else
+            else if (rngHediff.addedPartProps == null)
             {
                 pawn.health.AddHediff(rngHediff);
             }

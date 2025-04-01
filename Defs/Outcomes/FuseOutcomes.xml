@@ -1,0 +1,21 @@
+<Defs>
+
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_FuseOutcomes</defName>
+    <chanceToBeAoe>0</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_FuseWithPawn>1</BS_RR_FuseWithPawn>
+      <BS_RR_FuseWithManyPawns>0.5</BS_RR_FuseWithManyPawns>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_FuseWithPawn</defName>
+    <fuseWithPawns>1~1</fuseWithPawns>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_FuseWithManyPawns</defName>
+    <fuseWithPawns>1~4</fuseWithPawns>
+  </BigAndSmall.EventOutcome>
+</Defs>

@@ -1,0 +1,36 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_TransformToTable</defName>
+    <chanceToBeAoe>0</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_TransformToTable>1</BS_RR_TransformToTable>
+      <BS_RR_TransformToTablePlay>0.25</BS_RR_TransformToTablePlay>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_TransformToTable</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <turnIntoMinifiedThingFromList>
+      <li>Table1x2c</li>
+      <li>Table1x2c</li>
+      <li>Table2x2c</li>
+      <li>Table1x2c</li>
+      <li>Table1x2c</li>
+      <li>Table2x2c</li>
+      <li>Table2x4c</li>
+    </turnIntoMinifiedThingFromList>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_TransformToTablePlay</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <turnIntoMinifiedThingFromList>
+      <li>BilliardsTable</li>
+      <li>ChessTable</li>
+      <li>PokerTable</li>
+    </turnIntoMinifiedThingFromList>
+  </BigAndSmall.EventOutcome>
+
+
+</Defs>

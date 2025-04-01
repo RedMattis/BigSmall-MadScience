@@ -1,4 +1,6 @@
 <Defs>
+  <!-- These are quite unstable. -->
+
   <BigAndSmall.RandomEventTable>
     <defName>BS_RR_SamuelStreamer</defName>
     <chanceToBeAoe>0.69</chanceToBeAoe>

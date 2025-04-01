@@ -49,6 +49,7 @@
           <BS_RR_GeneOutcomes>1</BS_RR_GeneOutcomes>
           <BS_RR_RaceOutcomes>0.5</BS_RR_RaceOutcomes>
           <BS_RR_MentalBreak>1</BS_RR_MentalBreak>
+          <BS_RR_AgeOutcomes>0.25</BS_RR_AgeOutcomes> <!--Sir van and FrozenSnowFox-->
 
           <!-- Spawn stuff -->
           <BS_RR_SpawnAnimals>0.04</BS_RR_SpawnAnimals>
@@ -58,14 +59,13 @@
           <BS_RR_CatgirlEtc>0.2</BS_RR_CatgirlEtc> <!--FrozenSnowFox-->
 
           <!-- Big deal -->
-          <BS_RR_DeadlifeDust>0.1</BS_RR_DeadlifeDust>
-
-          <!-- Thanks Keyz. o_O;; -->
-          <BS_RR_SamuelStreamer>0.2</BS_RR_SamuelStreamer> <!--Keyz-->
+          <BS_RR_DeadlifeDust>0.3</BS_RR_DeadlifeDust>
+          <BS_RR_FuseOutcomes>0.05</BS_RR_FuseOutcomes>
 
            <!-- Instant-kill. -->
           <BS_RR_TransformOutcomes>0.5</BS_RR_TransformOutcomes>
           <BS_RR_KillOutcome>0.5</BS_RR_KillOutcome>
+          <BS_RR_TransformToTable>0.05</BS_RR_TransformToTable> <!--Sir Van-->
 
 
         </eventTables>
