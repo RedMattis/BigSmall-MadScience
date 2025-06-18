@@ -1,0 +1,81 @@
+<Defs>
+  <HediffDef>
+    <defName>BS_RandyRayAffliction</defName>
+    <label>Randy Ray Randomness</label>
+    <description>What is going on here?</description>
+    <isBad>true</isBad>
+    <maxSeverity>10</maxSeverity>
+    <makesSickThought>false</makesSickThought>
+    <everCurableByItem>false</everCurableByItem>
+    <hediffClass>BigAndSmall.RandyEventHediff</hediffClass>
+    <alwaysShowSeverity>true</alwaysShowSeverity>
+    <stages>
+      <li>
+        <label>no apparent effect</label>
+      </li>
+      <li>
+        <label>strange energy</label>
+        <minSeverity>0.6</minSeverity>
+        <!-- Maybe add some special effect to indicate that it is about to blow? -->
+      </li>
+      <li>
+        <label>unstable</label>
+        <minSeverity>0.85</minSeverity>
+        <!-- Maybe add some special effect to indicate that it is about to blow? -->
+      </li>
+      <li>
+        <label>uh, oh.</label>
+        <minSeverity>1</minSeverity>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.6</severityPerDay>
+        <!-- <showHoursToRecover>true</showHoursToRecover> -->
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="BigAndSmall.ModExtension_RandomEventProps">
+        <triggerStage>3</triggerStage>
+        <stageToGoToOnTrigger>1</stageToGoToOnTrigger> <!--Easier after the first trigger.-->
+        <eventTables>
+          <!-- Mild. Unlikely to kill directly. -->
+          <BS_RR_StunOutcomes>1</BS_RR_StunOutcomes>
+          <BS_RR_MinorOutcomes>2</BS_RR_MinorOutcomes>
+          <BS_RR_DamageOutcomes>1</BS_RR_DamageOutcomes>
+
+          <!-- Unlikely to be lethal -->
+          <BS_RR_HediffOutcome>1</BS_RR_HediffOutcome>
+          <BS_RR_GeneOutcomes>1</BS_RR_GeneOutcomes>
+          <BS_RR_RaceOutcomes>0.5</BS_RR_RaceOutcomes>
+          <BS_RR_MentalBreak>1</BS_RR_MentalBreak>
+          <BS_RR_AgeOutcomes>0.25</BS_RR_AgeOutcomes> <!--Sir van and FrozenSnowFox-->
+
+          <!-- Spawn stuff -->
+          <BS_RR_SpawnAnimals>0.04</BS_RR_SpawnAnimals>
+          <BS_RR_SpawnDucks>0.08</BS_RR_SpawnDucks> <!--Thekiborg-->
+
+          <!-- Harmless -->
+          <BS_RR_CatgirlEtc>0.2</BS_RR_CatgirlEtc> <!--FrozenSnowFox-->
+
+          <!-- Big deal -->
+          <BS_RR_DeadlifeDust>0.3</BS_RR_DeadlifeDust>
+          <BS_RR_FuseOutcomes>0.05</BS_RR_FuseOutcomes>
+
+           <!-- Instant-kill. -->
+          <BS_RR_TransformOutcomes>0.5</BS_RR_TransformOutcomes>
+          <BS_RR_KillOutcome>0.5</BS_RR_KillOutcome>
+          <BS_RR_TransformToTable>0.05</BS_RR_TransformToTable> <!--Sir Van-->
+
+
+        </eventTables>
+      </li>
+    </modExtensions>
+  </HediffDef>
+
+
+
+  
+
+
+</Defs>

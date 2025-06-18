@@ -1,0 +1,18 @@
+<Defs>
+
+  <BigAndSmall.EventOutcome Name="BS_RR_EmpTiny">
+    <defName>BS_RR_EmpTiny</defName>
+    <doEmpExplosionTiny>true</doEmpExplosionTiny>
+    
+  </BigAndSmall.EventOutcome>
+    <BigAndSmall.EventOutcome Name="BS_RR_EmpSmall">
+    <defName>BS_RR_EmpSmall</defName>
+    <doEmpExplosionSmall>true</doEmpExplosionSmall>
+
+  </BigAndSmall.EventOutcome>
+    <BigAndSmall.EventOutcome Name="BS_RR_EmpBig">
+    <defName>BS_RR_EmpBig</defName>
+    <doEmpExplosionLarge>true</doEmpExplosionLarge>
+  </BigAndSmall.EventOutcome>
+
+</Defs>

@@ -1,0 +1,160 @@
+<Defs>
+  <ThingDef Name="BS_RandyRaygun" ParentName="BaseHumanMakeableGun">
+		<defName>BS_RandyRaygun</defName>
+		<label>randy raygun</label>
+		<description>Just what the heck is this thing? Shoots fast but does nothing..?</description>
+		<graphicData>
+      <texPath>Things/BS_RandyRay</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+		<soundInteract>Interact_ChargeRifle</soundInteract>
+    <generateCommonality>0.1</generateCommonality>
+    <!-- <generateAllowChance>1</generateAllowChance> -->
+		<statBases>
+      <Mass>8</Mass>
+      <AccuracyTouch>0.25</AccuracyTouch>
+      <AccuracyShort>0.55</AccuracyShort>
+      <AccuracyMedium>0.78</AccuracyMedium>
+      <AccuracyLong>0.50</AccuracyLong>
+      <RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown>
+      <WorkToMake>30000</WorkToMake>
+    </statBases>
+		<weaponTags Inherit="False">
+      <li>SpacerGun</li>
+			<li>MadScience</li>
+		</weaponTags>
+    
+		<weaponClasses>
+      <li>RangedLight</li>
+		</weaponClasses>
+		<costList>
+			<Steel>30</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+		</costList>
+		<recipeMaker>
+			<skillRequirements>
+				<Crafting>10</Crafting>
+			</skillRequirements>
+			<displayPriority>400</displayPriority>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <researchPrerequisites>
+        <li>BS_MadScienceField</li>
+      </researchPrerequisites>
+		</recipeMaker>
+		<verbs>
+			<li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>BS_RandyRayShot</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <range>28.9</range>
+        <burstShotCount>8</burstShotCount>
+        <ticksBetweenBurstShots>9</ticksBetweenBurstShots>
+        <soundCast>Resurrect_Resolve</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<tools>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>13</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+	</ThingDef>
+
+  <ThingDef Name="BS_RandyRayShot" ParentName="BaseBullet">
+		<defName>BS_RandyRayShot</defName>
+		<label>Randy ray ray</label>
+		<graphicData>
+			<texPath>Things/BS_RandyRayProjectile_1</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+			<drawSize>0.8</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>BS_IndictedDamage</damageDef>
+			<damageAmountBase>15</damageAmountBase>
+			<stoppingPower>0.15</stoppingPower>
+			<speed>70</speed>
+		</projectile>
+		<thingClass>BigAndSmall.BS_StatusBullet</thingClass>
+		<modExtensions>
+			<li Class="BigAndSmall.ModExtension_StatusAfflicter">
+        <hediffToAdd>BS_RandyRayAffliction</hediffToAdd>
+        <severity>0.01</severity>
+        <scaleSeverityByDamage>true</scaleSeverityByDamage>
+        <softScaleSeverityByBodySize>true</softScaleSeverityByBodySize>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+  <ThingDef ParentName="BS_RandyRaygun">
+		<defName>BS_RandyRaygunMKII</defName>
+		<label>randy raygun mk2</label>
+		<description>What a dud!</description>
+		<graphicData>
+      <texPath>Things/BS_RandyRayMK2</texPath>
+      <drawSize>(1.15, 1.15)</drawSize>
+    </graphicData>
+    <recipeMaker IsNull="True"/>
+    <costList IsNull="True"/>
+    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+    <statBases>
+      <Mass>8</Mass>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.78</AccuracyMedium>
+      <AccuracyLong>0.65</AccuracyLong>
+      <RangedWeapon_Cooldown>0.4</RangedWeapon_Cooldown>
+      <MarketValue>2500</MarketValue>
+    </statBases>
+    <verbs Inherit="False">
+			<li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>BS_RandyRayShotMKII</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <range>28.9</range>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>30</ticksBetweenBurstShots>
+        <soundCast>Resurrect_Resolve</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
+			</li>
+		</verbs>
+    <smeltable>false</smeltable>
+  </ThingDef>
+
+  <ThingDef ParentName="BS_RandyRayShot">
+		<defName>BS_RandyRayShotMKII</defName>
+		<label>Randy ray ray ray ray ray ray</label>
+    <projectile>
+			<damageDef>BS_IndictedDamage</damageDef>
+			<damageAmountBase>42</damageAmountBase>
+			<stoppingPower>0.75</stoppingPower>
+			<speed>50</speed>
+		</projectile>
+    <graphicData>
+			<texPath>Things/BS_RandyRayProjectileMK2</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+			<drawSize>1</drawSize>
+      <color>(255, 190, 180)</color>
+		</graphicData>
+    <modExtensions Inherit="False">
+			<li Class="BigAndSmall.ModExtension_StatusAfflicter">
+        <hediffToAdd>BS_RandyRayAffliction</hediffToAdd>
+        <severity>0.04</severity>
+        <scaleSeverityByDamage>true</scaleSeverityByDamage>
+        <softScaleSeverityByBodySize>true</softScaleSeverityByBodySize>
+			</li>
+		</modExtensions>
+  </ThingDef>
+</Defs>

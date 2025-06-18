@@ -1,0 +1,31 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_AgeOutcomes</defName>
+    <chanceToBeAoe>0</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_AgeRandom>1</BS_RR_AgeRandom>
+      <BS_RR_AgeYoung>1</BS_RR_AgeYoung>
+      <BS_RR_AgeBaby>0.05</BS_RR_AgeBaby>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome>
+    <defName>BS_RR_AgeRandom</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <randomizeAge>0~1.5</randomizeAge>
+  </BigAndSmall.EventOutcome>
+  
+  <BigAndSmall.EventOutcome>
+    <defName>BS_RR_AgeBaby</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <randomizeAge>0.01~0.05</randomizeAge>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome>
+    <defName>BS_RR_AgeYoung</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <randomizeAge>0.15~0.25</randomizeAge>
+  </BigAndSmall.EventOutcome>
+
+
+</Defs>

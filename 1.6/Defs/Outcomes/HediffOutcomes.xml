@@ -1,0 +1,17 @@
+<Defs>
+  <BigAndSmall.RandomEventTable Name="RandomEventTable">
+    <defName>BS_RR_HediffOutcome</defName>
+    <chanceToBeAoe>0.25</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_GiveRandomHediff>2</BS_RR_GiveRandomHediff>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_GiveRandomHediff</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <giveRandomHediff>true</giveRandomHediff>
+  </BigAndSmall.EventOutcome>
+
+
+</Defs>

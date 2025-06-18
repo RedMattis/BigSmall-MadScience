@@ -1,0 +1,51 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_RaceOutcomes</defName>
+    <chanceToBeAoe>0.35</chanceToBeAoe>
+    <triggerRange>1~3</triggerRange>
+    <eventTriggers>
+      <BS_RR_MakeSapientAnimal>4</BS_RR_MakeSapientAnimal>
+      <BS_RR_MakeUndead>3</BS_RR_MakeUndead>
+      <BS_RR_SwapRace>2</BS_RR_SwapRace>
+      <BS_RR_AppendRace>2</BS_RR_AppendRace>
+      <BS_RR_SwapGender>2</BS_RR_SwapGender>
+      <BS_RR_SwapBodyType>2</BS_RR_SwapBodyType>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_MakeUndead</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <makeUndead>true</makeUndead>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_SwapGender</defName>
+    <swapGender>true</swapGender>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_MakeSapientAnimal</defName>
+    <makeSapientAnimal>true</makeSapientAnimal>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_SwapBodyType</defName>
+    <giveGeneFromList>
+      <li>Body_Hulk</li>
+      <li>Body_Thin</li>
+      <li>Body_Standard</li>
+      <li>Body_Fat</li>
+    </giveGeneFromList>
+  </BigAndSmall.EventOutcome>
+
+   <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_SwapRace</defName>
+    <replaceRace>true</replaceRace>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpSmall">
+    <defName>BS_RR_AppendRace</defName>
+    <appendRaceGene>true</appendRaceGene>
+  </BigAndSmall.EventOutcome>
+</Defs>

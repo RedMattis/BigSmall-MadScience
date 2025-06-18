@@ -1,0 +1,27 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_StunOutcomes</defName>
+    <chanceToBeAoe>0.5</chanceToBeAoe>
+    <eventTriggers>
+      <!-- <BS_RR_StunLite>1</BS_RR_StunLite> -->
+      <BS_RR_Stun>1</BS_RR_Stun>
+      <BS_RR_StunHeavy>0.5</BS_RR_StunHeavy>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome Name="BS_RR_StunLite">
+    <defName>BS_RR_StunLite</defName>
+    <stunDamage>1~10</stunDamage>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome Name="BS_RR_StunAverage">
+    <defName>BS_RR_Stun</defName>
+    <stunDamage>10~25</stunDamage>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome Name="BS_RR_StunHeavy">
+    <defName>BS_RR_StunHeavy</defName>
+    <stunDamage>25~50</stunDamage>
+  </BigAndSmall.EventOutcome>
+
+</Defs>

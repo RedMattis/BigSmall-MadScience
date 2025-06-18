@@ -1,0 +1,15 @@
+<Defs>
+  <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_MinorOutcomes</defName>
+    <chanceToBeAoe>0.5</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_SwapStuffs>1</BS_RR_SwapStuffs>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  <BigAndSmall.EventOutcome>
+    <defName>BS_RR_SwapStuffs</defName>
+    <swapApparelStuffables>true</swapApparelStuffables>
+  </BigAndSmall.EventOutcome>
+  
+</Defs>

@@ -1,0 +1,52 @@
+<Defs>
+    <BigAndSmall.RandomEventTable>
+    <defName>BS_RR_DeadlifeDust</defName>
+    <chanceToBeAoe>0</chanceToBeAoe>
+    <eventTriggers>
+      <BS_RR_DeadlifeDust>0.5</BS_RR_DeadlifeDust>
+      <BS_RR_DeadlifeDustPlayer>1</BS_RR_DeadlifeDustPlayer>
+      <BS_RR_DeadlifeDustHorax>0.5</BS_RR_DeadlifeDustHorax>
+      <BS_RR_DeadlifeDustHoraxLots>0.1</BS_RR_DeadlifeDustHoraxLots>
+      <BS_RR_DeadlifeDustHoraxTons>0.01</BS_RR_DeadlifeDustHoraxTons>
+
+      <!-- Fallback if the Anomaly DLC isn't in. -->
+      <BS_RR_SpawnManhuntingAnimals>0.0000001</BS_RR_SpawnManhuntingAnimals>
+    </eventTriggers>
+  </BigAndSmall.RandomEventTable>
+
+  
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_DeadlifeDust</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <failOnNoAnomalyDLC>true</failOnNoAnomalyDLC>
+    <deadLifeDustSame>3~20</deadLifeDustSame>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_DeadlifeDustPlayer</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <failOnNoAnomalyDLC>true</failOnNoAnomalyDLC>
+    <deadLifeDustPlayer>3~20</deadLifeDustPlayer>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_DeadlifeDustHorax</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <failOnNoAnomalyDLC>true</failOnNoAnomalyDLC>
+    <deadLifeDustHorax>3~20</deadLifeDustHorax>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_DeadlifeDustHoraxLots</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <failOnNoAnomalyDLC>true</failOnNoAnomalyDLC>
+    <deadLifeDustHorax>12~50</deadLifeDustHorax>
+  </BigAndSmall.EventOutcome>
+
+  <BigAndSmall.EventOutcome ParentName="BS_RR_EmpBig">
+    <defName>BS_RR_DeadlifeDustHoraxTons</defName>
+    <failOnNonhumanlike>false</failOnNonhumanlike>
+    <failOnNoAnomalyDLC>true</failOnNoAnomalyDLC>
+    <deadLifeDustHorax>12~90</deadLifeDustHorax>
+  </BigAndSmall.EventOutcome>
+</Defs>
