@@ -54,8 +54,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="BigAndSmall">
-      <HintPath>..\..\..\..\1 BigSmall_Framework_Private\1.6\Base\Assemblies\BigAndSmall.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\1 BigSmall_Framework\1.6\Base\Assemblies\BigAndSmall.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -90,7 +89,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\..\..\1 BigSmall_Framework_Private\1.6\Base\Assemblies\BigAndSmall.dll" />
+    <Analyzer Include="..\..\..\..\1 BigSmall_Framework\1.6\Base\Assemblies\BigAndSmall.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
