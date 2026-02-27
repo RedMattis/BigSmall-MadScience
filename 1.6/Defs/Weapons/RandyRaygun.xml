@@ -2,7 +2,7 @@
   <ThingDef Name="BS_RandyRaygun" ParentName="BaseHumanMakeableGun">
 		<defName>BS_RandyRaygun</defName>
 		<label>randy raygun</label>
-		<description>Just what the heck is this thing? Shoots fast but does nothing..?</description>
+		<description>"Just what the heck is this thing? Shoots fast, does nothing.\nMistaking it for a training weapon was a critical mistake."</description>
 		<graphicData>
       <texPath>Things/BS_RandyRay</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -79,7 +79,7 @@
 			<drawSize>0.8</drawSize>
 		</graphicData>
 		<projectile>
-			<damageDef>BS_IndictedDamage</damageDef>
+			<damageDef>BS_IndirectDamage_Electric</damageDef>
 			<damageAmountBase>15</damageAmountBase>
 			<stoppingPower>0.15</stoppingPower>
 			<speed>70</speed>
@@ -88,17 +88,17 @@
 		<modExtensions>
 			<li Class="BigAndSmall.ModExtension_StatusAfflicter">
         <hediffToAdd>BS_RandyRayAffliction</hediffToAdd>
-        <severity>0.01</severity>
+        <severity>0.015</severity>
         <scaleSeverityByDamage>true</scaleSeverityByDamage>
         <softScaleSeverityByBodySize>true</softScaleSeverityByBodySize>
 			</li>
 		</modExtensions>
 	</ThingDef>
 
-  <ThingDef ParentName="BS_RandyRaygun">
+  <ThingDef ParentName="BS_RandyRaygun" Name="BS_RandyRaygunMKII">
 		<defName>BS_RandyRaygunMKII</defName>
 		<label>randy raygun mk2</label>
-		<description>What a dud!</description>
+		<description>"Such a dud! That thing was just a training weapon!"\n- Note found near to an old-earth royal poker table oddly crammed into an ancient bunk-bed.</description>
 		<graphicData>
       <texPath>Things/BS_RandyRayMK2</texPath>
       <drawSize>(1.15, 1.15)</drawSize>
@@ -151,10 +151,157 @@
     <modExtensions Inherit="False">
 			<li Class="BigAndSmall.ModExtension_StatusAfflicter">
         <hediffToAdd>BS_RandyRayAffliction</hediffToAdd>
-        <severity>0.04</severity>
+        <severity>0.02</severity>
         <scaleSeverityByDamage>true</scaleSeverityByDamage>
         <softScaleSeverityByBodySize>true</softScaleSeverityByBodySize>
 			</li>
 		</modExtensions>
+  </ThingDef>
+
+
+  <!-- UNIQUE VERSIONS -->
+  <ThingDef ParentName="BS_RandyRaygun" MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>BS_RandyRaygun_Unique</defName>
+		<label>unique randy raygun</label>
+    <description>This can only end in tears</description>
+    <graphicData>
+      <texPath>Things/BS_RandyRay</texPath>
+      <drawSize>(1.15, 1.15)</drawSize>
+    </graphicData>
+    <comps Inherit="False">
+      <li Class="CompProperties_EquippableAbilityReloadable" />
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Styleable"/>
+      <li Class="CompProperties_Biocodable"/>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtWeaponGun</nameMaker>
+        <descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+      <li Class="CompProperties_UniqueWeapon">
+        <weaponCategories>
+          <li>Ranged</li>
+          <li>BulletFiring</li>
+          <li>BurstFire</li>
+          <li>Gun</li>
+          <li>BurstFire</li>
+          <li>LowStoppingPower</li>
+          <li>BS_ModernGun</li>
+        </weaponCategories>
+        <namerLabels>
+          <li>Perry Persistent</li>
+          <li>the mod list</li>
+          <li>steam workshop</li>
+          <li>r/random</li>
+          <li>the deviant art</li>
+          <li>newgrounds</li>
+          <li>flash</li>
+          <li>anti-anti-virus</li>
+          <li>discombobulator</li>
+          <li>the Randy</li>
+          <li>the pawnmorpher</li>
+          <li>experiment 404</li>
+          <li>pew pew</li>
+          <li>probability converter</li>
+          <li>reality roulette raygun</li>
+        </namerLabels>
+      </li>
+    </comps>
+    <generateAllowChance>0</generateAllowChance>
+    <possessionCount>0</possessionCount>
+    <tradeability>Sellable</tradeability>
+    <thingSetMakerTags Inherit="False" >
+      <li>RewardStandardLowFreq</li>
+      <li>UniqueWeapon</li>
+    </thingSetMakerTags>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <thingCategories Inherit="False">
+      <li>WeaponsUnique</li>
+    </thingCategories>
+    <descriptionHyperlinks>
+      <ThingDef>BS_RandyRaygun</ThingDef>
+    </descriptionHyperlinks>
+  </ThingDef>
+
+  <!-- UNIQUE VERSIONS -->
+  <ThingDef ParentName="BS_RandyRaygunMKII" MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>BS_RandyRaygunMKII_Unique</defName>
+		<label>unique randy raygun mk2</label>
+    <description>Some lunatic or archotech has tried to modify mk2 randy raygun.\n\nWe can only assume this entity has now turned into a swarm of ducks.</description>
+    <graphicData>
+      <texPath>Things/BS_RandyRayMK2</texPath>
+      <drawSize>(1.15, 1.15)</drawSize>
+    </graphicData>
+    <comps Inherit="False">
+      <li Class="CompProperties_EquippableAbilityReloadable" />
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Styleable"/>
+      <li Class="CompProperties_Biocodable"/>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtWeaponGun</nameMaker>
+        <descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+      <li Class="CompProperties_UniqueWeapon">
+        <weaponCategories>
+          <li>Ranged</li>
+          <li>BulletFiring</li>
+          <li>BurstFire</li>
+          <li>Gun</li>
+          <li>BurstFire</li>
+          <li>LowStoppingPower</li>
+          <li>BS_ModernGun</li>
+          <li>BS_SingleShot</li>
+        </weaponCategories>
+        <namerLabels>
+          <li>randy's reality razor</li>
+          <li>Perrandy Persistrandy</li>
+          <li>horax nightmare</li>
+          <li>reality blender mk2</li>
+          <li>Ꝛⱥ⟁ꞑƉɎ</li>
+          <li>ɌⱥꞥÐⱺ₥</li>
+          <li>ⱤⱥɎǥꞵꞥ</li>
+          <li>[⟟⟟⟟⟟⟟ DATA ⸮ ⸮ ⸮ ⸮ NULL ⟟⟟⟟⟟⟟]</li>
+          <li>Ð⟁†░_∅xⱣ⋄ŋ⋱∅Ð⸮⋄d</li>
+          <li>░█t█_Ξ▓p█g▒░d</li>
+          <li>██ⱥ▜▜⟁██</li>
+          <li>▜▚⟁</li>
+          <li>the number</li>
+          <li>the finale</li>
+          <li>beginning of the end</li>
+          <li>burrier of the gods</li>
+          <li>will undone</li>
+          <li>set_random_all()</li>
+          <li>anima shriek</li>
+          <li>universe creaser</li>
+          <li>multiverse re-combiner</li>
+          <li>timeline tweaker</li>
+          <li>null pointer</li>
+          <li>anti-genesis</li>
+          <li>no kingdom come</li>
+          <li>randy raygun mk3</li>
+        </namerLabels>
+      </li>
+    </comps>
+    <generateAllowChance>0</generateAllowChance>
+    <possessionCount>0</possessionCount>
+    <tradeability>Sellable</tradeability>
+    <thingSetMakerTags Inherit="False" >
+      <li>RewardStandardLowFreq</li>
+      <li>UniqueWeapon</li>
+    </thingSetMakerTags>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <thingCategories Inherit="False">
+      <li>WeaponsUnique</li>
+    </thingCategories>
+    <descriptionHyperlinks>
+      <ThingDef>BS_RandyRaygunMKII</ThingDef>
+    </descriptionHyperlinks>
   </ThingDef>
 </Defs>

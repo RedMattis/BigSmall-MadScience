@@ -13,36 +13,78 @@ namespace BigAndSmall
         public List<EventTableChance> eventTables;
         public int triggerStage = 1;
         public int stageToGoToOnTrigger = 0;
+        public int maxChain = 1000;
     }
 
     public class RandyEventHediff : HediffWithComps
     {
+        public static RandyEventHediff ChainTriggerer;
+        public static int ProcessingChainIdx = 0;
         public ModExtension_RandomEventProps Props => def.GetModExtension<ModExtension_RandomEventProps>();
         protected override void OnStageIndexChanged(int stageIndex)
         {
-            if (Props != null && stageIndex >= Props.triggerStage && Severity > 0)
+            ChainTriggerer ??= this;
+            if (Props != null)
             {
-                var totalChance = Props.eventTables.Sum(x => x.chance);
-                var roll = Rand.Value * totalChance;
-                var currentChance = 0f;
-                foreach (var eventTable in Props.eventTables)
+                var stages = def.stages;
+                var resetSeverity = stages[Props.stageToGoToOnTrigger].minSeverity + 0.01f;
+                var triggerSeverity = stages[Props.triggerStage].minSeverity;
+                float triggerToRestDist = triggerSeverity - resetSeverity;
+                //float severityStart = Severity;
+                while (ProcessingChainIdx < Props.maxChain && stageIndex >= Props.triggerStage && Severity > 0)
                 {
-                    currentChance += eventTable.chance;
-                    if (roll <= currentChance)
+                    ProcessingChainIdx++;
+                    var totalChance = Props.eventTables.Sum(x => x.chance);
+                    var roll = Rand.Value * totalChance;
+                    var currentChance = 0f;
+                    foreach (var eventTable in Props.eventTables)
                     {
-                        eventTable.eventTable.DoEvent(pawn);
+                        currentChance += eventTable.chance;
+                        if (roll <= currentChance)
+                        {
+                            try
+                            {
+                                eventTable.eventTable.DoEvent(pawn);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Error($"Error while executing event table {eventTable.eventTable}: {ex}");
+                            }
+                            break;
+                        }
+                    }
+
+                    if (stages == null || Props.stageToGoToOnTrigger > stages.Count)
+                    {
+                        severityInt = 0;
+                        break;
+                    }
+                    else
+                    {
+                        if (ProcessingChainIdx >= Props.maxChain)
+                        {
+                            severityInt = resetSeverity;
+                        }
+                        else
+                        {
+                            float newSeverity = Severity - triggerToRestDist;
+                            severityInt = newSeverity;
+                        }
+                    }
+                    if (severityInt < triggerSeverity)
+                    {
                         break;
                     }
                 }
-                var stages = def.stages;
-                if (stages == null || Props.stageToGoToOnTrigger > stages.Count)
+                if (CurStageIndex != stageIndex)
                 {
-                    Severity = 0;
+                    OnStageIndexChanged(CurStageIndex);
                 }
-                else
-                {
-                    Severity = stages[Props.stageToGoToOnTrigger].minSeverity + 0.02f;
-                }
+            }
+            if (ChainTriggerer == this)
+            {
+                ChainTriggerer = null;
+                ProcessingChainIdx = 0;
             }
         }
     }

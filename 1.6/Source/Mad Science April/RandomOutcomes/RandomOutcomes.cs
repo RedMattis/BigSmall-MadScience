@@ -617,9 +617,17 @@ namespace BigAndSmall
             GenExplosion.DoExplosion(pawn.Position, pawn.Map, Rand.Range(2, 6), damageDefs.RandomElement(), pawn, damAmount: Rand.Range(4, 100));
         }
 
+
+        private bool IsExcludedHediff(HediffDef hediff)
+        {
+            if (hediff.defName.ToLower().Contains("preg"))
+                return true;
+            return false;
+        }
         private void GiveRandomHediff(Pawn pawn)
         {
             var rngHediffs = DefDatabase<HediffDef>.AllDefsListForReading.Where(x => x.countsAsAddedPartOrImplant || x.makesSickThought || x.tendable || x.isBad || x.defaultInstallPart != null);
+            rngHediffs = rngHediffs.Where(x => !IsExcludedHediff(x)).ToList();
             if (rngHediffs.Any())
             {
                 var rngHediff = rngHediffs.RandomElement();
@@ -729,6 +737,11 @@ namespace BigAndSmall
         {
             // Find associated RecipeDef, if any.
             var recipeDef = DefDatabase<RecipeDef>.AllDefsListForReading.FirstOrDefault(x => x.addsHediff == rngHediff);
+            bool? isInjury = rngHediff.hediffClass?.SameOrSubclassOf(typeof(Hediff_Injury));
+            isInjury ??= rngHediff.hediffClass?.SameOrSubclassOf(typeof(MissingPart));
+
+
+
             if (recipeDef?.appliedOnFixedBodyParts is List<BodyPartDef> validParts)
             {
                 var parts = pawn.health.hediffSet.GetNotMissingParts().Where(x => validParts.Contains(x.def));
@@ -745,10 +758,19 @@ namespace BigAndSmall
                     pawn.health.AddHediff(rngHediff, parts.RandomElement());
                 }
             }
+            else if (isInjury == true)
+            {
+                var parts = pawn.health.hediffSet.GetNotMissingParts();
+                if (parts.Any())
+                {
+                    pawn.health.AddHediff(rngHediff, parts.RandomElement());
+                }
+            }
             else if (rngHediff.addedPartProps == null)
             {
                 pawn.health.AddHediff(rngHediff);
             }
+            
         }
 
         static string[] sizeTags = ["BodySize", "Body_Size_Multiplier"];

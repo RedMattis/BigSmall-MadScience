@@ -19,10 +19,14 @@ namespace BigAndSmall
 
         public bool DoEvent(Pawn target)
         {
+            if (target == null) return false;
             float totalChance = eventTriggers.Sum(x => x.chance);
             float roll = Rand.Value * totalChance;
             float currentChance = 0;
             bool success = false;
+            var targetPos = target.Position;
+            var pawnsOnMap = target.Map?.mapPawns?.AllPawns;
+            if (pawnsOnMap == null) return false;
             foreach (var eTrigger in eventTriggers)
             {
                 currentChance += eTrigger.chance;
@@ -32,7 +36,7 @@ namespace BigAndSmall
                     if (Rand.Chance(chanceToBeAoe))
                     {
                         int actualRange = triggerRange.RandomInRange;
-                        var pawnsInRange = target.Map.mapPawns.AllPawns.Where(x => x.Position.DistanceTo(target.Position) <= actualRange).ToList();
+                        var pawnsInRange = pawnsOnMap.Where(x => x?.Destroyed == false && x.Map != null  && x.Position.DistanceTo(targetPos) <= actualRange).ToList();
                         if (excludeTarget)
                         {
                             pawnsInRange.Remove(target);

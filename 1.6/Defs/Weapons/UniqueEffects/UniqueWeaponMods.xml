@@ -1,0 +1,81 @@
+<Defs>
+    <ColorDef ParentName="UniqueWeaponColorBase" MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>BS_UniqueWeapon_Randy</defName>
+    <label>randy purple</label>
+    <color>(210, 150, 240)</color>
+    <randomlyPickable>false</randomlyPickable>
+  </ColorDef>
+
+  <WeaponTraitDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>BS_RandyRayExtra</defName>
+    <label>randy rounds</label>
+    <description>This weapon is a rather dangerous anomaly; its will frequently distort things it strikes. This can be very dangerous both to the wielder and target.</description>
+    <commonality>1</commonality>
+    <weaponCategory>BulletFiring</weaponCategory>
+    <exclusionTags>
+      <li>AmmoType</li>
+    </exclusionTags>
+    <extraDamages>
+      <li>
+        <def>BS_RandyRayBuildupDamage</def>
+        <amount>1.5</amount>
+        <armorPenetration>2</armorPenetration>
+      </li>
+    </extraDamages>
+    <statFactors>
+      <MarketValue>0.5</MarketValue>
+      <RangedWeapon_Cooldown>0.9</RangedWeapon_Cooldown>
+    </statFactors>
+    <traitAdjectives>
+      <li>Randy</li>
+    </traitAdjectives>
+  </WeaponTraitDef>
+
+  <WeaponTraitDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>BS_RandyRayExtraPlusUltra</defName>
+    <label>randΞ rꞥu▓█ s</label>
+    <description>This weapon is a calamity and will frequently distort reality. Gambling the very existence of both the wielder and target.</description>
+    <commonality>1</commonality>
+    <weaponCategory>BulletFiring</weaponCategory>
+    <exclusionTags>
+      <li>AmmoType</li>
+      <li>Color</li>
+    </exclusionTags>
+    <forcedColor>BS_UniqueWeapon_Randy</forcedColor>
+    <extraDamages>
+      <li>
+        <def>BS_RandyRayBuildupDamage</def>
+        <amount>4</amount>
+        <armorPenetration>2</armorPenetration>
+      </li>
+    </extraDamages>
+    <statFactors>
+      <MarketValue>0.2</MarketValue>
+      <AccuracyMedium>0.9</AccuracyMedium>
+      <AccuracyLong>0.8</AccuracyLong>
+      <RangedWeapon_Cooldown>0.7</RangedWeapon_Cooldown>
+    </statFactors>
+    <traitAdjectives>
+      <li>Randy</li>
+    </traitAdjectives>
+  </WeaponTraitDef>
+
+  <DamageDef ParentName="Flame">
+    <defName>BS_RandyRayBuildupDamage</defName>
+    <label>reality distortion</label>
+    <deathMessage>{0} has been distorted to death.</deathMessage>
+    <additionalHediffs>
+      <li>
+        <hediff>BS_RandyRayAffliction</hediff>
+        <severityPerDamageDealt>0.1</severityPerDamageDealt>
+        <inverseStatScaling>true</inverseStatScaling>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
+    <applyAdditionalHediffsIfHuntingForFood>false</applyAdditionalHediffsIfHuntingForFood>
+    <impactSoundType>Electric</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+  </DamageDef>
+</Defs>

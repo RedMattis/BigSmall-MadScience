@@ -15,7 +15,7 @@
       </li>
       <li>
         <label>strange energy</label>
-        <minSeverity>0.6</minSeverity>
+        <minSeverity>0.58</minSeverity>
         <!-- Maybe add some special effect to indicate that it is about to blow? -->
       </li>
       <li>
@@ -38,6 +38,7 @@
       <li Class="BigAndSmall.ModExtension_RandomEventProps">
         <triggerStage>3</triggerStage>
         <stageToGoToOnTrigger>1</stageToGoToOnTrigger> <!--Easier after the first trigger.-->
+        <maxChain>1000</maxChain>
         <eventTables>
           <!-- Mild. Unlikely to kill directly. -->
           <BS_RR_StunOutcomes>1</BS_RR_StunOutcomes>

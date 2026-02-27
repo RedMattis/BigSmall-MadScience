@@ -55,6 +55,7 @@
     </Reference>
     <Reference Include="BigAndSmall">
       <HintPath>..\..\..\..\1 BigSmall_Framework\1.6\Base\Assemblies\BigAndSmall.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
